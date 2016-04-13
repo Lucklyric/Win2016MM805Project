@@ -6,22 +6,16 @@ function [newx,newy,newz]=rotate(axis,center,angle,x,y,z)
     Ry=[cos(angle) 0 sin(angle);0 1 0;-sin(angle) 0 cos(angle)];
     Rz=[cos(angle) -sin(angle) 0;sin(angle) cos(angle) 0;0 0 1];
     for i=1:length(x)
-        nx=x(i)-center(1);
-        ny=y(i)-center(2);
-        nz=z(i)-center(3);
-        points=[nx ny nz];
+        points=[x(i) y(i) z(i)];
         if axis==0
-            points=points*Rx;
+            new_points=Rx*points';
         elseif axis==1
-            points=points*Ry;
+            new_points=Ry*points';
         elseif axis==2
-            points=points*Rz;
+            new_points=Rz*points';
         else
         end
-        nx=points(1)+center(1);
-        ny=points(2)+center(2);
-        nz=points(3)+center(3);
-        newx(i)=nx;
-        newy(i)=ny;
-        newz(i)=nz;
+        newx(i)=new_points(1);
+        newy(i)=new_points(2);
+        newz(i)=new_points(3);
     end
