@@ -1,4 +1,4 @@
-clear;
+clear
 pointsize=50;
 cx=0;
 cy=0;
@@ -10,7 +10,6 @@ meany=mean(y);
 meanz=mean(z);
 centroid=[meanx,meany,meanz];
 f = 100;
-theta = pi/80;
 projectionx=zeros(1,pointsize);
 projectiony=zeros(1,pointsize);
 projectionrx=zeros(1,pointsize);
@@ -19,9 +18,9 @@ projectiontx=zeros(1,pointsize);
 projectionty=zeros(1,pointsize);
 projectionpx=zeros(1,pointsize);
 projectionpy=zeros(1,pointsize);
-[xr,yr,zr]=rotate(2,centroid,theta,x,y,z);%roll=0, z-axis
-[xt,yt,zt]=rotate(0,centroid,theta,x,y,z);%tilt=1, y-axis
-[xp,yp,zp]=rotate(1,centroid,theta,x,y,z);%pan=2, x-axis
+[xr,yr,zr]=rotate(2,centroid,pi ,x,y,z);%roll=0, z-axis
+[xt,yt,zt]=rotate(1,centroid,pi,x,y,z);%tilt=1, y-axis
+[xp,yp,zp]=rotate(0,centroid,pi,x,y,z);%pan=2, x-axis
 
 for i=1:pointsize
     [px,py]=project(x(1,i),y(1,i),z(1,i),f,cx,cy);
@@ -37,4 +36,4 @@ for i=1:pointsize
     projectionpx(i)= pxp;
     projectionpy(i)= pyp;
 end
-fx = strategyC(mean(projectionx),mean(projectionx.*projectionx),mean(projectionpx),mean(projectionpx.*projectionpx),theta);
+fx = strategyC();
