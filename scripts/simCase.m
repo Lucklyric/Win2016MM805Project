@@ -1,17 +1,17 @@
 clear;
-pointsize=1;
+pointsize=10;
 cx=0;
 cy=0;
-x = randi([50 70],1,pointsize);
-y = randi([50 70],1,pointsize);
-z = randi([220,240],1,pointsize);
+x = randi([250 270],1,pointsize);
+y = randi([250 270],1,pointsize);
+z = randi([1220,1240],1,pointsize);
 meanx=mean(x);
 meany=mean(y);
 meanz=mean(z);
 centroid=[meanx,meany,meanz];
-fx = 100;
-fy = 100;
-theta = pi/180;
+fx = 400;
+fy = 600;
+theta = 2*pi/180;
 projectionx=zeros(1,pointsize);
 projectiony=zeros(1,pointsize);
 projectionrx=zeros(1,pointsize);
@@ -20,9 +20,9 @@ projectiontx=zeros(1,pointsize);
 projectionty=zeros(1,pointsize);
 projectionpx=zeros(1,pointsize);
 projectionpy=zeros(1,pointsize);
-[xr,yr,zr]=rotate(2,centroid,-theta,x,y,z);%roll=0, z-axis
-[xt,yt,zt]=rotate(1,centroid,-theta,x,y,z);%tilt=2, x-axis
-[xp,yp,zp]=rotate(0,centroid,-theta,x,y,z);%pan=1, y-axis
+[xr,yr,zr]=rotate(2,centroid,-pi,x,y,z);%roll=2, z-axis
+[xt,yt,zt]=rotate(0,centroid,-theta,x,y,z);%tilt=0, x-axis
+[xp,yp,zp]=rotate(1,centroid,-theta,x,y,z);%pan=1, y-axis
 
 for i=1:pointsize
     [px,py]=project(x(1,i),y(1,i),z(1,i),fx,fy,cx,cy);
@@ -38,9 +38,11 @@ for i=1:pointsize
     projectionpx(i)= pxp;
     projectionpy(i)= pyp;
 end
-[fx,fy] = strategyC(mean(projectionx),mean(projectionx.*projectionx),mean(projectionpx),mean(projectionpx.*projectionpx),theta*180/pi...
-             ,mean(projectiony),mean(projectiony.*projectiony),mean(projectionty),mean(projectionty.*projectionty),theta*180/pi); 
-% [fx,fy] = strategyC(mean(projectionx),(mean(projectionx))^2,mean(projectionpx),(mean(projectionpx))^2,theta*180/pi...
-%              ,mean(projectiony),mean(projectiony.*projectiony),mean(projectionty),mean(projectionty.*projectionty),theta*180/pi); 
-delta_x = (mean(projectionx)+mean(projectionrx))/2;
-delta_y = (mean(projectiony)+mean(projectionry))/2;
+
+[Cfx,Cfy] = strategyC(mean(projectionx),mean(projectionx.*projectionx),mean(projectionpx),theta...
+             ,mean(projectiony),mean(projectiony.*projectiony),mean(projectionty),theta); 
+
+         
+[Dfx,Dfy,dx,dy] = strategyD(mean(projectionx),mean(projectionpx),mean(projectiony),mean(projectionty),theta,theta,mean(projectionrx),mean(projectionry));
+ delta_x = (mean(projectionx)+mean(projectionrx))/2;
+ delta_y = (mean(projectiony)+mean(projectionry))/2;
