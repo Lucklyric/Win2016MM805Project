@@ -9,7 +9,8 @@ meanx=mean(x);
 meany=mean(y);
 meanz=mean(z);
 centroid=[meanx,meany,meanz];
-f = 100;
+fx = 100;
+fy = 100;
 theta = pi/180;
 projectionx=zeros(1,pointsize);
 projectiony=zeros(1,pointsize);
@@ -20,14 +21,14 @@ projectionty=zeros(1,pointsize);
 projectionpx=zeros(1,pointsize);
 projectionpy=zeros(1,pointsize);
 [xr,yr,zr]=rotate(2,centroid,-theta,x,y,z);%roll=0, z-axis
-[xt,yt,zt]=rotate(1,centroid,-theta,x,y,z);%tilt=1, y-axis
-[xp,yp,zp]=rotate(0,centroid,-theta,x,y,z);%pan=2, x-axis
+[xt,yt,zt]=rotate(1,centroid,-theta,x,y,z);%tilt=2, x-axis
+[xp,yp,zp]=rotate(0,centroid,-theta,x,y,z);%pan=1, y-axis
 
 for i=1:pointsize
-    [px,py]=project(x(1,i),y(1,i),z(1,i),f,cx,cy);
-    [pxr,pyr]=project(xr(1,i),yr(1,i),zr(1,i),f,cx,cy);
-    [pxt,pyt]=project(xt(1,i),yt(1,i),zt(1,i),f,cx,cy);
-    [pxp,pyp]=project(xp(1,i),yp(1,i),zp(1,i),f,cx,cy);
+    [px,py]=project(x(1,i),y(1,i),z(1,i),fx,fy,cx,cy);
+    [pxr,pyr]=project(xr(1,i),yr(1,i),zr(1,i),fx,fy,cx,cy);
+    [pxt,pyt]=project(xt(1,i),yt(1,i),zt(1,i),fx,fy,cx,cy);
+    [pxp,pyp]=project(xp(1,i),yp(1,i),zp(1,i),fx,fy,cx,cy);
     projectionx(i)= px;
     projectiony(i)= py;
     projectionrx(i)= pxr;

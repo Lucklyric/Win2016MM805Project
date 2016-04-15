@@ -1,3 +1,3 @@
-function [px,py]=project(x,y,z,f,cx,cy)
-    px=(f*x+cx*z)/z;
-    py=(f*y+cy*z)/z;
+function [px,py]=project(x,y,z,fx,fy,cx,cy)
+    px=(fx*x+cx*z)/z;
+    py=(fy*y+cy*z)/z;
