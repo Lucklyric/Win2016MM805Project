@@ -41,10 +41,9 @@ for i=1:pointsize
     projectionpy(i)= pyp;
 end
 
-[Cfx,Cfy] = strategyC(mean(projectionx),mean(projectionx.*projectionx),mean(projectionpx),thetap...
-             ,mean(projectiony),mean(projectiony.*projectiony),mean(projectionty),thetat); 
+[Cfx,Cfy,cdx,cdy] = strategyC(mean(projectionx),mean(projectionx.*projectionx),mean(projectionpx),thetap,mean(projectiony),mean(projectiony.*projectiony),mean(projectionty),thetat,thetar,mean(projectionrx),mean(projectionry)); 
 
          
-[Dfx,Dfy,dx,dy] = strategyD(mean(projectionx),mean(projectionpx),mean(projectiony),mean(projectionty),thetat,thetap,mean(projectionrx),mean(projectionry));
+[Dfx,Dfy,ddx,ddy] = strategyD(mean(projectionx),mean(projectionpx),mean(projectiony),mean(projectionty),thetat,thetap,mean(projectionrx),mean(projectionry));
  delta_x = (mean(projectionx)+mean(projectionrx))/2;
  delta_y = (mean(projectiony)+mean(projectionry))/2;
