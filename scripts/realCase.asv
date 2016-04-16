@@ -44,11 +44,10 @@ imshow(imgTil);
 rectTil = getrect;
 maskTil = imgTil(floor(rectTil(2)):floor(rectTil(2)+rectTil(4)),floor(rectTil(1)):floor(rectTil(1)+rectTil(3)));
 tilR = im2bw(maskTil,graythresh(maskTil));
-[r,c] = ind2sub(size(tilR),find(tilR==0));
+[r,c] = ind2sub(size(tilR),find(panR==0));
 
-y_bar_t = mean(r)+rectTil(2);
-x_bar_t = mean(c)+rectTil(1);
+
 
 
 [Cfx,Cfy] = strategyC(x_bar,x_bar^2,x_bar_p,8*pi/180 ...
-             ,y_bar,y_bar^2,y_bar_t,4*pi/180); 
+             ,y_bar,y_bar^2,y_bar_p,8*pi/180); 
