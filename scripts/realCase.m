@@ -50,5 +50,4 @@ y_bar_t = mean(r)+rectTil(2);
 x_bar_t = mean(c)+rectTil(1);
 
 
-[Cfx,Cfy] = strategyC(x_bar,x_bar^2,x_bar_p,8*pi/180 ...
-             ,y_bar,y_bar^2,y_bar_t,4*pi/180); 
+[Cfx,Cfy] = strategyC(x_bar,x_bar^2,x_bar_p,8*pi/180,y_bar,y_bar^2,y_bar_t,4*pi/180); 
