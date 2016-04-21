@@ -7,7 +7,7 @@ g_fx = g_f/dx;
 g_fy = g_f/dy;
 % Pre-set parameters of pan and roll angles in degree
 pan_angle = 9;
-til_angle = 3;
+til_angle = 6;
 %% Read Real Image from files and
 imgInitR = imread('../images/new/init.JPG');
 imgPanR = imread('../images/new/p9.JPG');

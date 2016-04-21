@@ -1,7 +1,7 @@
 clear;
 pointsize=10;
-cx=0;
-cy=0;
+cx=10;
+cy=10;
 x = randi([250 270],1,pointsize);
 y = randi([250 270],1,pointsize);
 z = randi([1220,1240],1,pointsize);
@@ -19,7 +19,8 @@ results_Dfx=[];
 results_Dfy=[];
 results_Ddx=[];
 results_Ddy=[];
-for angle=1:2:7
+angle_array=[1,2,3,4,5,6,7,8,9];
+for angle=1:length(angle_array)
     thetar = 180*pi/180;
     thetap = angle*pi/180;
     thetat = angle*pi/180;
@@ -66,7 +67,6 @@ for angle=1:2:7
     results_Ddx=[results_Ddx ddx];
     results_Ddy=[results_Ddy ddy];
 end
-angle_array=[1,3,5,7];
 fx_list=zeros(length(angle_array),1);
 fy_list=zeros(length(angle_array),1);
 cx_list=zeros(length(angle_array),1);
@@ -79,3 +79,4 @@ for j=1:length(angle_array)
 end
 result_all=struct('fx',fx_list,'fy',fy_list,'deltax',cx_list,'deltay',cy_list,'angle',angle_array','Cfx',results_Cfx','Cfy',results_Cfy','Cdeltax',results_Cdx','Cdeltay',results_Cdy','Dfx',results_Dfx','Dfy',results_Dfy','Ddeltax',results_Ddx','Ddeltay',results_Ddy');
 result_all=struct2table(result_all);
+disp(result_all);
