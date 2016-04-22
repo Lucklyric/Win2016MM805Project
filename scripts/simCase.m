@@ -1,17 +1,17 @@
 clear;
-prompt = {'Enter the fx:','Enter the fy:','Enter the cx:', 'Enter the cy:'};
+prompt = {'Enter the fx:','Enter the fy:','Enter the cx:', 'Enter the cy:','Enter the min x value:','Enter the max x value:','Enter the min y value:','Enter the max y value:','Enter the min z value:','Enter the max z value:','Total points in the object:'};
 dlg_title = 'Setup parameters';
 num_lines = 1;
-defaultans = {'3000','3000','0','0'};
+defaultans = {'3000','3000','0','0','250','270','250','270','1220','1240','10'};
 parameters = inputdlg(prompt,dlg_title,num_lines,defaultans);
 fx = str2double(parameters(1));
 fy = str2double(parameters(2));
 cx = str2double(parameters(3));
 cy = str2double(parameters(4));
 pointsize=10;
-x = randi([250 270],1,pointsize);
-y = randi([250 270],1,pointsize);
-z = randi([1220,1240],1,pointsize);
+x = randi([str2double(parameters(5)) str2double(parameters(6))],1,str2double(parameters(11)));
+y = randi([str2double(parameters(7)) str2double(parameters(8))],1,str2double(parameters(11)));
+z = randi([str2double(parameters(9)),str2double(parameters(10))],1,str2double(parameters(11)));
 meanx=mean(x);
 meany=mean(y);
 meanz=mean(z);
@@ -24,21 +24,34 @@ results_Dfx=[];
 results_Dfy=[];
 results_Ddx=[];
 results_Ddy=[];
-angle_array=[1,2,3,4,5,6,7,8,9];
+pan_array=[];
+tilt_array=[];
+prompt = {'Enter the lower bound for pan angle(will test for 10 angles):', 'Enter the lower bound for tilt angle(will test for 10 angles):'};
+dlg_title = 'Setup angles';
+num_lines = 1;
+defaultans = {'1','1'};
+ptangles = inputdlg(prompt,dlg_title,num_lines,defaultans);
+for m=str2double(ptangles(1)):str2double(ptangles(1))+9
+    pan_array=[pan_array m];
+end
+for n=str2double(ptangles(2)):str2double(ptangles(2))+9
+    tilt_array=[tilt_array n];
+end
+len=10;
 choice = menu('Choose an angle((if not 180 degree only show result for strategy C)','30 degree','60 degree','90 degree','180 degree');
 if choice==3
-    roll_array=[90,90,90,90,90,90,90,90,90];
+    roll_array=[90,90,90,90,90,90,90,90,90,90];
 elseif choice==1
-    roll_array=[30,30,30,30,30,30,30,30,30];
+    roll_array=[30,30,30,30,30,30,30,30,30,30];
 elseif choice==2
-    roll_array=[60,60,60,60,60,60,60,60,60];
+    roll_array=[60,60,60,60,60,60,60,60,60,60];
 else
-    roll_array=[180,180,180,180,180,180,180,180,180];
+    roll_array=[180,180,180,180,180,180,180,180,180,180];
 end
-for angle=1:length(angle_array)
+for angle=1:len
     thetar = roll_array(angle)*pi/180;
-    thetap = angle_array(angle)*pi/180;
-    thetat = angle_array(angle)*pi/180;
+    thetap = pan_array(angle)*pi/180;
+    thetat = tilt_array(angle)*pi/180;
     projectionx=zeros(1,pointsize);
     projectiony=zeros(1,pointsize);
     projectionrx=zeros(1,pointsize);
@@ -82,20 +95,20 @@ for angle=1:length(angle_array)
     results_Ddx=[results_Ddx ddx];
     results_Ddy=[results_Ddy ddy];
 end
-fx_list=zeros(length(angle_array),1);
-fy_list=zeros(length(angle_array),1);
-cx_list=zeros(length(angle_array),1);
-cy_list=zeros(length(angle_array),1);
-for j=1:length(angle_array)
+fx_list=zeros(len,1);
+fy_list=zeros(len,1);
+cx_list=zeros(len,1);
+cy_list=zeros(len,1);
+for j=1:len
     fx_list(j)=fx;
     fy_list(j)=fy;
     cx_list(j)=cx;
     cy_list(j)=cy;
 end
 if choice==4
-    result_all=struct('fx',fx_list,'fy',fy_list,'deltax',cx_list,'deltay',cy_list,'pan_tilt_angle',angle_array','roll_angle',roll_array','Cfx',results_Cfx','Cfy',results_Cfy','Cdeltax',results_Cdx','Cdeltay',results_Cdy','Dfx',results_Dfx','Dfy',results_Dfy','Ddeltax',results_Ddx','Ddeltay',results_Ddy');
+    result_all=struct('fx',fx_list,'fy',fy_list,'deltax',cx_list,'deltay',cy_list,'pan_angle',pan_array','tilt_angle',tilt_array','roll_angle',roll_array','Cfx',results_Cfx','Cfy',results_Cfy','Cdeltax',results_Cdx','Cdeltay',results_Cdy','Dfx',results_Dfx','Dfy',results_Dfy','Ddeltax',results_Ddx','Ddeltay',results_Ddy');
 else
-    result_all=struct('fx',fx_list,'fy',fy_list,'deltax',cx_list,'deltay',cy_list,'pan_tilt_angle',angle_array','roll_angle',roll_array','Cfx',results_Cfx','Cfy',results_Cfy','Cdeltax',results_Cdx','Cdeltay',results_Cdy');
+    result_all=struct('fx',fx_list,'fy',fy_list,'deltax',cx_list,'deltay',cy_list,'pan_angle',pan_array','tilt_angle',tilt_array','roll_angle',roll_array','Cfx',results_Cfx','Cfy',results_Cfy','Cdeltax',results_Cdx','Cdeltay',results_Cdy');
 end
 result_all=struct2table(result_all);
 disp(result_all);
