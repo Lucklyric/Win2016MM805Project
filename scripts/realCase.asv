@@ -60,7 +60,7 @@ fake_delta_y = (y_bar+y_fakeR180_bar)/2;
 [x_til_bar,y_til_bar] = returnContour(imgTil,'Til');
 
 %% Return roll 180 Image countour
-[x_roll180_bar,y_roll180_bar] = returnContour(imgRoll180,'roll_180');
+[x_roll180_bar,y_roll180_bar] = returnContour(imgFakeR180,'roll_180');
 
 %% Apply StrategyC
 [Cfx,Cfy,Cdx,Cdy] = strategyC(x_bar,x_pan_bar,pan_angle*pi/180,y_bar,y_til_bar,til_angle*pi/180,180*pi/180,x_roll180_bar,y_roll180_bar); 
@@ -69,9 +69,4 @@ fake_delta_y = (y_bar+y_fakeR180_bar)/2;
 [Dfx,Dfy,Ddx,Ddy] = strategyD(x_bar,x_pan_bar,y_bar,y_til_bar,til_angle*pi/180,pan_angle*pi/180,x_roll180_bar,y_roll180_bar);
 
 %% Output Result
-result_fake=struct2table(struct('ideal_cx',g_cx,'ideal_cy',g_cy,'fake_delatx',fake_delta_x,'fake_deltay',fake_delta_y));
-result_all=struct2table(struct('ideal_fx',g_fx,'ideal_fy',g_fy,'ideal_cx',g_cx,'ideal_cy',g_cy,'pan_angle',pan_angle',...
-    'tilt_angle',til_angle','Cfx',Cfx','Cfy',Cfy','Cdeltax',Cdx','Cdeltay',Cdy','Dfx',Dfx','Dfy',Dfy','Ddeltax',Ddx','Ddeltay',Ddy'));
-
-disp(result_fake);
-disp(result_all);
+result_all=struct('ideal_fx',g_fx,'ideal_fy',g_fy,'ideal_cx',g_cx,'ideal_cy',g_cy,'pan_angle',pan_angle','titl_angle',til_angle','Cfx',Cfx','Cfy',Cfy','Cdeltax',Cdx','Cdeltay',Cdy','Dfx',Dfx','Dfy',Dfy','Ddeltax',Ddx','Ddeltay',results_Ddy');
