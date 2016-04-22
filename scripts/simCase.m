@@ -1,4 +1,6 @@
+%%This is the sythetic case for our experiment.
 clear;
+%% ask user to input parameters
 prompt = {'Enter the fx:','Enter the fy:','Enter the cx:', 'Enter the cy:','Enter the min x value:','Enter the max x value:','Enter the min y value:','Enter the max y value:','Enter the min z value:','Enter the max z value:','Total points in the object:'};
 dlg_title = 'Setup parameters';
 num_lines = 1;
@@ -9,6 +11,7 @@ fy = str2double(parameters(2));
 cx = str2double(parameters(3));
 cy = str2double(parameters(4));
 pointsize=10;
+%create 3D object
 x = randi([str2double(parameters(5)) str2double(parameters(6))],1,str2double(parameters(11)));
 y = randi([str2double(parameters(7)) str2double(parameters(8))],1,str2double(parameters(11)));
 z = randi([str2double(parameters(9)),str2double(parameters(10))],1,str2double(parameters(11)));
@@ -26,6 +29,7 @@ results_Ddx=[];
 results_Ddy=[];
 pan_array=[];
 tilt_array=[];
+%% ask user to input the pan and tilt angle
 prompt = {'Enter the lower bound for pan angle(will test for 10 angles):', 'Enter the lower bound for tilt angle(will test for 10 angles):'};
 dlg_title = 'Setup angles';
 num_lines = 1;
@@ -38,6 +42,7 @@ for n=str2double(ptangles(2)):str2double(ptangles(2))+9
     tilt_array=[tilt_array n];
 end
 len=10;
+%% ask user to input roll angle
 choice = menu('Choose an angle((if not 180 degree only show result for strategy C)','30 degree','60 degree','90 degree','180 degree');
 if choice==3
     roll_array=[90,90,90,90,90,90,90,90,90,90];
@@ -48,6 +53,7 @@ elseif choice==2
 else
     roll_array=[180,180,180,180,180,180,180,180,180,180];
 end
+%% This is the main algorithm for the sim case.
 for angle=1:len
     thetar = roll_array(angle)*pi/180;
     thetap = pan_array(angle)*pi/180;
@@ -60,11 +66,13 @@ for angle=1:len
     projectionty=zeros(1,pointsize);
     projectionpx=zeros(1,pointsize);
     projectionpy=zeros(1,pointsize);
+    %rotate the 3D object
     [xr,yr,zr]=rotate(2,centroid,-thetar,x,y,z);%roll=2, z-axis
     [xt,yt,zt]=rotate(0,centroid,-thetat,x,y,z);%tilt=0, x-axis
     [xp,yp,zp]=rotate(1,centroid,-thetap,x,y,z);%pan=1, y-axis
 
     for i=1:pointsize
+        %project the 3D object onto 2D plane
         [px,py]=project(x(1,i),y(1,i),z(1,i),fx,fy,cx,cy);
         [pxr,pyr]=project(xr(1,i),yr(1,i),zr(1,i),fx,fy,cx,cy);
         [pxt,pyt]=project(xt(1,i),yt(1,i),zt(1,i),fx,fy,cx,cy);
@@ -78,14 +86,13 @@ for angle=1:len
         projectionpx(i)= pxp;
         projectionpy(i)= pyp;
     end
-
+    %use strategy C
     [Cfx,Cfy,cdx,cdy] = strategyC(mean(projectionx),mean(projectionpx),thetap,mean(projectiony),mean(projectionty),thetat,thetar,mean(projectionrx),mean(projectionry)); 
-
-
+    %use strategy D
     [Dfx,Dfy,ddx,ddy] = strategyD(mean(projectionx),mean(projectionpx),mean(projectiony),mean(projectionty),thetat,thetap,mean(projectionrx),mean(projectionry));
     delta_x = (mean(projectionx)+mean(projectionrx))/2;
     delta_y = (mean(projectiony)+mean(projectionry))/2;
-    
+    %collect result
     results_Cfx=[results_Cfx Cfx];
     results_Cfy=[results_Cfy Cfy];
     results_Cdx=[results_Cdx cdx];
@@ -111,4 +118,5 @@ else
     result_all=struct('fx',fx_list,'fy',fy_list,'deltax',cx_list,'deltay',cy_list,'pan_angle',pan_array','tilt_angle',tilt_array','roll_angle',roll_array','Cfx',results_Cfx','Cfy',results_Cfy','Cdeltax',results_Cdx','Cdeltay',results_Cdy');
 end
 result_all=struct2table(result_all);
+%display result
 disp(result_all);

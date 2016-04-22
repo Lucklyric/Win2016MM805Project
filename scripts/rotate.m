@@ -1,10 +1,13 @@
+%% rotate the 3D object along x, y, z axis
 function [newx,newy,newz]=rotate(axis,center,angle,x,y,z)
     newx=zeros(1,length(x));
     newy=zeros(1,length(x));
     newz=zeros(1,length(x));
+    % rotation matrices
     Rx=[1 0 0;0 cos(angle) -sin(angle);0 sin(angle) cos(angle)];
     Ry=[cos(angle) 0 sin(angle);0 1 0;-sin(angle) 0 cos(angle)];
     Rz=[cos(angle) -sin(angle) 0;sin(angle) cos(angle) 0;0 0 1];
+    %rotating
     for i=1:length(x)
         points=[x(i) y(i) z(i)];
         if axis==0
