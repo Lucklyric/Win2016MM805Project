@@ -1,4 +1,6 @@
 function [ fx,fy,delta_x,delta_y ] = strategyC( x_bar,x_p_bar,theta_p,y_bar,y_t_bar,theta_t,theta_r,x_r_bar,y_r_bar)
+%STRATEGYD This function is implemented the strategy C
+%   It returns the fx fy delta_x and delta_y
 x_square_bar = x_bar^2; 
 y_square_bar = y_bar^2;
 fx = ((x_p_bar - x_bar* (1 + theta_p^2))/ (-2 * theta_p)) + (1/2)*sqrt(((x_bar * (1 + theta_p^2) - (x_p_bar))/ theta_p)^2 - 4*(x_square_bar));
