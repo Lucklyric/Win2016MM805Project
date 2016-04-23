@@ -9,7 +9,7 @@ By = (theta_t^2)*delta_y-y_bar*(theta_t^2+1)+y_t_bar;
 fy = (sqrt(Ay+By^2)+By)/(2*theta_t);
 
 Ax = 4*theta_p*(2*delta_x*theta_p*x_bar-theta_p*delta_y^2-theta_p*x_bar^2);
-Bx = (theta_t^2)*delta_x-x_bar*(theta_p^2+1)+x_p_bar;
+Bx = (theta_p^2)*delta_x-x_bar*(theta_p^2+1)+x_p_bar;
 fx = (sqrt(Ax+Bx^2)-Bx)/(2*theta_p);
 end
 
