@@ -10,7 +10,7 @@ fx = str2double(parameters(1));
 fy = str2double(parameters(2));
 cx = str2double(parameters(3));
 cy = str2double(parameters(4));
-pointsize=10;
+pointsize=str2double(parameters(11));
 %create 3D object
 x = randi([str2double(parameters(5)) str2double(parameters(6))],1,str2double(parameters(11)));
 y = randi([str2double(parameters(7)) str2double(parameters(8))],1,str2double(parameters(11)));
